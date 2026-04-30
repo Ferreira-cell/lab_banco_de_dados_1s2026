@@ -45,9 +45,9 @@ select
 	t2.nome as ususario, 
 	t1.id_categoria,
     t3.nome as categoria,
-	count(t1.id_usuario) 
-as 
-	qtd_livro 
+	count(t1.id_livro) as qtd_livro,
+    (count(t1.id_livro)/(select count(*) from livro))*100 as pct
+
 from 
 	livro t1
 join 
@@ -58,5 +58,5 @@ join
 group by 
 	t1.id_usuario, t2.nome, t1.id_categoria, t3.nome
     
-order by t3.nome, qtd_livro desc;
-
+/*order by t3.nome, qtd_livro desc;*/
+order by pct desc;
