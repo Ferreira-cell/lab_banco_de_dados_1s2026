@@ -60,3 +60,45 @@ group by
     
 /*order by t3.nome, qtd_livro desc;*/
 order by pct desc;
+
+/**/
+
+select * from livro;
+
+select count(*) as qtd from livro;
+select id_usuario, lido, count(*) 
+as QTD 
+from livro 
+group by id_usuario, Lido;
+
+
+select 
+	   t1.id_usuario,
+	   t2.nome, 
+       count(t1.id_livro) as QTD_livro,
+       sum(t1.lido) as qtd_livro_lido,
+       round((sum(t1.lido) / count(t1.id_livro)) * 100, 2) as PERC_Lido,
+       max(t1.ano_publicacao) as ano_mais_recente,
+       min(t1.ano_publicacao) as ano_mais_antigo	
+from livro t1
+join usuario t2 on (t1.id_usuario = t2.id_usuario)
+group by
+	   t1.id_usuario,
+       t2.nome;
+       
+/**/
+
+select 
+	nome,
+	ano_nascimento,
+	ano_morte,
+    (if(ano_morte > 0, ano_morte, year(current_date())) - ano_nascimento) as idade
+from autor;
+
+/**/
+
+select
+	AVG(
+        if(ano_morte > 0, ano_morte, year(current_date())) - ano_nascimento
+        ) as idade_media_autor
+from autor;
